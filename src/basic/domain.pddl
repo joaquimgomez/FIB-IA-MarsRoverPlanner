@@ -14,9 +14,9 @@
 	; Predicates
 	(:predicates
 		(parked ?c - rover ?b - base)
-	   (is-in ?c - cargo ?b - place)
-		 (needs ?c - cargo ?b - base)
-		 (served ?c - cargo)
+	  (is-in ?c - cargo ?b - place)
+		(needs ?c - cargo ?b - base)
+		(served ?c - cargo)
 	)
 
 	; Actions
