@@ -16,11 +16,7 @@
 		(parked ?c - rover ?b - base)
 	   (is-in ?c - cargo ?b - place)
 		 (needs ?c - cargo ?b - base)
-	)
-
-	; Functions
-	(:functions
-		(performed)
+		 (served ?c - cargo)
 	)
 
 	; Actions
@@ -69,7 +65,7 @@
 	  :effect (and
 			(not (is-in ?c ?b))
 			(not (needs ?c ?b))
-			(increase (performed) 1)
+			(served ?c)
 		)
 	)
 )

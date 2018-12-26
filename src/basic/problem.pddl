@@ -13,23 +13,26 @@
 
 	; Init
 	(:init
+		; Rovers
 		(parked r1 b1)
+
+		; Supplies
 	  (is-in s1 b1)
+
+		; Staff
 		(is-in p1 b1)
+
+		; Requests
 		(needs p1 b2)
 		(needs s1 b2)
 		(needs s1 b3)
-		(= (performed) 0)
 	)
 
 	; Goal
 	(:goal
 			(and
-				(not (needs p1 b2))
-				(not (needs s1 b2))
-				(not (needs s1 b3))
+				(served s1)
+				(served p1)
 			)
 	)
-
-	(:metric maximize (performed))
 )
