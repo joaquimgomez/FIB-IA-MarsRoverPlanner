@@ -6,7 +6,7 @@
 	; Types
 	(:types
 		rover - place
-		staff - cargo
+		person - cargo
 		supply - cargo
 		base - place
 	)
