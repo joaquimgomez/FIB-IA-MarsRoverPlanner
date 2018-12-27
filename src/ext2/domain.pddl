@@ -22,6 +22,8 @@
 	; Functions
 	(:functions
 		(supplies ?r - rover)
+		(fuel ?r - rover)
+		(fuel-used)
 	)
 
 	; Actions
@@ -84,10 +86,13 @@
 	  :parameters (?r - rover ?b1 - base ?b2 - base)
 	  :precondition (and
 			(parked ?r ?b1)
+			(> (fuel ?r) 0)
 		)
 	  :effect (and
 			(not (parked ?r ?b1))
 			(parked ?r ?b2)
+			(decrease (fuel ?r) 1)
+			(increase (fuel-used) 1)
 		)
 	)
 

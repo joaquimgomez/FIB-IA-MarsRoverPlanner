@@ -16,6 +16,8 @@
 		; Rovers
 		(parked r1 b1)
 		(= (supplies r1) 0)
+		(= (fuel r1) 3)
+		(= (fuel-used) 0)
 
 		; Supplies
 	  (is-in s1 b1)
@@ -41,4 +43,7 @@
 			(served ?c)
 		)
 	)
+
+	; Metric
+	(:metric minimize (fuel-used))
 )
