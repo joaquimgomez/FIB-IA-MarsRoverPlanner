@@ -5,7 +5,7 @@
 
 	; Objects
 	(:objects
-		r0 - rover
+		r0 r1 - rover
 		s0 - supply
 		p0 p1 p2 p3 - person
 		b0 b1 b2 - settlement
@@ -18,13 +18,16 @@
 		(parked r0 b0)
 		(= (supplies r0) 0)
 
+		(parked r1 b5)
+		(= (supplies r1) 0)
+
 		; Supplies
-	  (is-in s0 b4)
+	  (is-in s0 b5)
 
 		; Staff
 	  (is-in p0 b2)
 	  (is-in p1 b0)
-	  (is-in p2 b1)
+	  (is-in p2 b2)
 	  (is-in p3 b0)
 
 		(needs s0 b3)
