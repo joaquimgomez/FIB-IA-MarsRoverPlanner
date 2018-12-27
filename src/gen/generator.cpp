@@ -147,14 +147,15 @@ void init(ofstream& file, Info problem_info, int ext) {
 	requests = max(problem_info.people + problem_info.supplies, requests);
 	cout << endl;
 
-	cout << "Minimum amount of fuel?" << endl;
-	cin >> min_fuel;
-	cout << endl;
+	if (ext >= 2) {
+		cout << "Minimum amount of fuel?" << endl;
+		cin >> min_fuel;
+		cout << endl;
 
-	cout << "Maximum amount of fuel?" << endl;
-	cin >> max_fuel;
-	cout << endl;
-
+		cout << "Maximum amount of fuel?" << endl;
+		cin >> max_fuel;
+		cout << endl;
+	}
 
 	file << "	; Init" << endl;
 	file << "	(:init" << endl;
@@ -167,12 +168,12 @@ void init(ofstream& file, Info problem_info, int ext) {
 	}
 	for (int i = 0; i < problem_info.rovers; i++) {
 		int base = random(0, problem_info.settlements + problem_info.warehouses);
-		int fuel = random(max(0, min_fuel), max(1, max_fuel + 1));
 		file << "		(parked r" << i << " b" << base << ")" << endl;
 		if (ext >= 1) {
 			file << "		(= (supplies r" << i << ") 0)" << endl;
 		}
 		if (ext >= 2) {
+			int fuel = random(max(0, min_fuel), max(1, max_fuel + 1));
 			file << "		(= (fuel r" << i << ") " << fuel << ")" << endl;
 		}
 		file << endl;
