@@ -15,16 +15,16 @@
 	; Init
 	(:init
 		; Rovers
-		(parked r0 b4)
+		(parked r0 b0)
 		(= (supplies r0) 0)
 
 		; Supplies
-	  (is-in s0 b5)
+	  (is-in s0 b4)
 
 		; Staff
 	  (is-in p0 b2)
 	  (is-in p1 b0)
-	  (is-in p2 b0)
+	  (is-in p2 b1)
 	  (is-in p3 b0)
 
 		(needs s0 b3)
