@@ -44,4 +44,7 @@
 			(served ?c)
 		)
 	)
+
+	; Metric
+	(:metric minimize (fuel-used))
 )
