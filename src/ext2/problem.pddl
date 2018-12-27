@@ -8,7 +8,8 @@
 		r1 - rover
 		s1 - supply
 		p1 p2 p3 p4 - person
-		b1 b2 b3 - base
+		b1 b2 b3 - warehouse
+		b4 b5 b6 - settlement
 	)
 
 	; Init
@@ -24,16 +25,16 @@
 	  (is-in s1 b1)
 
 		; Staff
-		(is-in p1 b1)
-		(is-in p2 b1)
-		(is-in p3 b1)
-		(is-in p4 b1)
+		(is-in p1 b4)
+		(is-in p2 b4)
+		(is-in p3 b4)
+		(is-in p4 b4)
 
 		; Requests
-		(needs p1 b2)
-		(needs p2 b2)
-		(needs p3 b2)
-		(needs p4 b2)
+		(needs p1 b5)
+		(needs p2 b5)
+		(needs p3 b5)
+		(needs p4 b5)
 		(needs s1 b2)
 		(needs s1 b3)
 	)
