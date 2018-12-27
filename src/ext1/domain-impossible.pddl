@@ -84,7 +84,7 @@
 	  :effect (and
 			(not (parked ?r ?b1))
 			(parked ?r ?b2)
-			(= (moves ?r) (+ (moves ?r) 1))
+			(increase (moves ?r) 1)
 		)
 	)
 
