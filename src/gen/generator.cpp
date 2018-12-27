@@ -137,7 +137,7 @@ set< pair<string, string> > mix(Info info) {
 	return unio;
 }
 
-void init(ofstream& file, Info problem_info) {
+void init(ofstream& file, Info problem_info, int ext) {
 	int requests;
 	int min_fuel;
 	int max_fuel;
@@ -161,14 +161,20 @@ void init(ofstream& file, Info problem_info) {
 
 	// Rovers
 	file << "		; Rovers" << endl;
-	file << "		(= (fuel-used) 0)" << endl;
-	file << endl;
+	if (ext >= 2) {
+		file << "		(= (fuel-used) 0)" << endl;
+		file << endl;
+	}
 	for (int i = 0; i < problem_info.rovers; i++) {
 		int base = random(0, problem_info.settlements + problem_info.warehouses);
 		int fuel = random(max(0, min_fuel), max(1, max_fuel + 1));
 		file << "		(parked r" << i << " b" << base << ")" << endl;
-		file << "		(= (supplies r" << i << ") 0)" << endl;
-		file << "		(= (fuel r" << i << ") " << fuel << ")" << endl;
+		if (ext >= 1) {
+			file << "		(= (supplies r" << i << ") 0)" << endl;
+		}
+		if (ext >= 2) {
+			file << "		(= (fuel r" << i << ") " << fuel << ")" << endl;
+		}
 		file << endl;
 	}
 
@@ -219,22 +225,34 @@ void basic() {
 	auto file = get_file();
 	begin_problem(file);
 	auto info = add_objects(file);
-	init(file, info);
+	init(file, info, 0);
 	goal(file);
 	end_problem(file);
 	file.close();
 }
 
 void ext1() {
-
+	auto file = get_file();
+	begin_problem(file);
+	auto info = add_objects(file);
+	init(file, info, 1);
+	goal(file);
+	end_problem(file);
+	file.close();
 }
 
 void ext2() {
-
+	auto file = get_file();
+	begin_problem(file);
+	auto info = add_objects(file);
+	init(file, info, 2);
+	goal(file);
+	end_problem(file);
+	file.close();
 }
 
 void ext3() {
-
+	cout << "Not implemented yet" << endl;
 }
 
 int main() {
