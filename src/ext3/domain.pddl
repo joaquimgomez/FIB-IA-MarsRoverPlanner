@@ -1,21 +1,25 @@
 (define (domain mars)
 
 	; Requirements
-	(:requirements :adl :typing :fluents)
+	(:requirements :adl :typing :fluents :conditional-effects)
 
 	; Types
 	(:types
 		rover - place
 		person - cargo
 		supply - cargo
+		settlement - base
+		warehouse - base
 		base - place
 	)
 
 	; Predicates
 	(:predicates
 		(parked ?c - rover ?b - base)
-	  (is-in ?c - cargo ?b - place)
-		(needs ?c - cargo ?b - base)
+		(is-in ?c - cargo ?b - place)
+		(needs-p1 ?c - cargo ?b - base)
+		(needs-p2 ?c - cargo ?b - base)
+		(needs-p3 ?c - cargo ?b - base)
 		(served ?c - cargo)
 	)
 
@@ -24,12 +28,13 @@
 		(supplies ?r - rover)
 		(fuel ?r - rover)
 		(fuel-used)
+		(violations)
 	)
 
 	; Actions
 
 	(:action pick-person		; (person) base -> rover
-		:parameters (?p - person ?b - base ?r - rover)
+		:parameters (?p - person ?b - settlement ?r - rover)
 		:precondition (and
 			(parked ?r ?b)
 			(is-in ?p ?b)
@@ -43,7 +48,7 @@
 	)
 
 	(:action pick-supply		; (supply) base -> rover
-		:parameters (?s - supply ?b - base ?r - rover)
+		:parameters (?s - supply ?b - warehouse ?r - rover)
 		:precondition (and
 			(parked ?r ?b)
 			(is-in ?s ?b)
@@ -57,7 +62,7 @@
 	)
 
 	(:action leave-person		; (person) rover -> base
-	  :parameters (?p - person ?r - rover ?b - base)
+	  :parameters (?p - person ?r - rover ?b - settlement)
 	  :precondition (and
 			(parked ?r ?b)
 			(is-in ?p ?r)
@@ -70,7 +75,7 @@
 	)
 
 	(:action leave-supply		; (supply) rover -> base
-	  :parameters (?s - supply ?r - rover ?b - base)
+	  :parameters (?s - supply ?r - rover ?b - warehouse)
 	  :precondition (and
 			(parked ?r ?b)
 			(is-in ?s ?r)
@@ -96,15 +101,56 @@
 		)
 	)
 
-	(:action perform	; (cargo) stay in base
+	(:action perform-p1	; (cargo) stay in base
 	  :parameters (?c - cargo ?b - base)
 	  :precondition (and
 			(is-in ?c ?b)
-			(needs ?c ?b)
+			(needs-p1 ?c ?b)
 		)
 	  :effect (and
 			(not (is-in ?c ?b))
-			(not (needs ?c ?b))
+			(not (needs-p1 ?c ?b))
+			(served ?c)
+			(forall (?caux - cargo ?baux - base)
+				(when (needs-p2 ?caux ?baux)
+					(increase (violations) 1)
+				)
+			)
+			(forall (?caux - cargo ?baux - base)
+				(when (needs-p3 ?caux ?baux)
+					(increase (violations) 1)
+				)
+			)
+		)
+	)
+
+	(:action perform-p2	; (cargo) stay in base
+	  :parameters (?c - cargo ?b - base)
+	  :precondition (and
+			(is-in ?c ?b)
+			(needs-p2 ?c ?b)
+		)
+	  :effect (and
+			(not (is-in ?c ?b))
+			(not (needs-p2 ?c ?b))
+			(served ?c)
+			(forall (?caux - cargo ?baux - base)
+				(when (needs-p3 ?caux ?baux)
+					(increase (violations) 1)
+				)
+			)
+		)
+	)
+
+	(:action perform-p3	; (cargo) stay in base
+	  :parameters (?c - cargo ?b - base)
+	  :precondition (and
+			(is-in ?c ?b)
+			(needs-p3 ?c ?b)
+		)
+	  :effect (and
+			(not (is-in ?c ?b))
+			(not (needs-p3 ?c ?b))
 			(served ?c)
 		)
 	)
