@@ -1,7 +1,7 @@
 (define (domain mars)
 
 	; Requirements
-	(:requirements :adl :typing :fluents)
+	(:requirements :typing)
 
 	; Types
 	(:types
