@@ -22,7 +22,7 @@
 		(= (fuel r1) 3)
 
 		; Supplies
-	  (is-in s1 b1)
+		(is-in s1 b1)
 
 		; Staff
 		(is-in p1 b4)
