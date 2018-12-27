@@ -14,10 +14,11 @@
 	; Init
 	(:init
 		; Rovers
+		(= (fuel-used) 0)
+
 		(parked r1 b1)
 		(= (supplies r1) 0)
 		(= (fuel r1) 3)
-		(= (fuel-used) 0)
 
 		; Supplies
 	  (is-in s1 b1)
