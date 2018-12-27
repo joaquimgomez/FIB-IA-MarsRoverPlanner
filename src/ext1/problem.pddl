@@ -37,12 +37,8 @@
 
 	; Goal
 	(:goal
-			(and
-				(served s1)
-				(served p1)
-				(served p2)
-				(served p3)
-				(served p4)
-			)
+		(forall (?c - cargo)
+			(served ?c)
+		)
 	)
 )
