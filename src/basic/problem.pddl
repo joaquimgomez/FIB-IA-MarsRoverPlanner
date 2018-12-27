@@ -7,7 +7,7 @@
 	(:objects
 		r1 - rover
 		s1 - supply
-		p1 - staff
+		p1 - person
 		b1 b2 b3 - base
 	)
 
