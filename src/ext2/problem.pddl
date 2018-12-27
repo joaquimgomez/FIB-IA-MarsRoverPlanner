@@ -19,7 +19,7 @@
 
 		(parked r1 b1)
 		(= (supplies r1) 0)
-		(= (fuel r1) 3)
+		(= (fuel r1) 5)
 
 		; Supplies
 		(is-in s1 b1)
