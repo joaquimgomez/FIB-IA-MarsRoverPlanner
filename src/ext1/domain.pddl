@@ -8,13 +8,15 @@
 		rover - place
 		person - cargo
 		supply - cargo
+		settlement - base
+		warehouse - base
 		base - place
 	)
 
 	; Predicates
 	(:predicates
 		(parked ?c - rover ?b - base)
-	  (is-in ?c - cargo ?b - place)
+		(is-in ?c - cargo ?b - place)
 		(needs ?c - cargo ?b - base)
 		(served ?c - cargo)
 	)
@@ -27,7 +29,7 @@
 	; Actions
 
 	(:action pick-person		; (person) base -> rover
-		:parameters (?p - person ?b - base ?r - rover)
+		:parameters (?p - person ?b - settlement ?r - rover)
 		:precondition (and
 			(parked ?r ?b)
 			(is-in ?p ?b)
@@ -41,7 +43,7 @@
 	)
 
 	(:action pick-supply		; (supply) base -> rover
-		:parameters (?s - supply ?b - base ?r - rover)
+		:parameters (?s - supply ?b - warehouse ?r - rover)
 		:precondition (and
 			(parked ?r ?b)
 			(is-in ?s ?b)
@@ -55,7 +57,7 @@
 	)
 
 	(:action leave-person		; (person) rover -> base
-	  :parameters (?p - person ?r - rover ?b - base)
+	  :parameters (?p - person ?r - rover ?b - settlement)
 	  :precondition (and
 			(parked ?r ?b)
 			(is-in ?p ?r)
@@ -68,7 +70,7 @@
 	)
 
 	(:action leave-supply		; (supply) rover -> base
-	  :parameters (?s - supply ?r - rover ?b - base)
+	  :parameters (?s - supply ?r - rover ?b - warehouse)
 	  :precondition (and
 			(parked ?r ?b)
 			(is-in ?s ?r)
