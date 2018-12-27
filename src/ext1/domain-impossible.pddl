@@ -79,7 +79,7 @@
 	  :parameters (?r - rover ?b1 - base ?b2 - base)
 	  :precondition (and
 			(parked ?r ?b1)
-			(>= (moves ?r) 1)
+			(<= (moves ?r) 1)
 		)
 	  :effect (and
 			(not (parked ?r ?b1))
