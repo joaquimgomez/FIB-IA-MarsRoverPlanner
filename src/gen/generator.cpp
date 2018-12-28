@@ -139,8 +139,8 @@ set< pair<string, string> > mix(Info info) {
 
 void init(ofstream& file, Info problem_info, int ext) {
 	int requests;
-	int min_fuel;
-	int max_fuel;
+	int min_fuel = 0;
+	int max_fuel = 0;
 
 	cout << "How many requests ( >= " << (problem_info.people + problem_info.supplies) << " )" << endl;
 	cin >> requests;
@@ -164,6 +164,11 @@ void init(ofstream& file, Info problem_info, int ext) {
 	file << "		; Rovers" << endl;
 	if (ext >= 2) {
 		file << "		(= (fuel-used) 0)" << endl;
+	}
+	if (ext >= 3) {
+		file << "		(= (violations) 0)" << endl;
+	}
+	if (ext >= 2) {
 		file << endl;
 	}
 	for (int i = 0; i < problem_info.rovers; i++) {
@@ -183,7 +188,7 @@ void init(ofstream& file, Info problem_info, int ext) {
 	file << "		; Supplies" << endl;
 	for (int i = 0; i < problem_info.supplies; i++) {
 		int base = random(0, problem_info.warehouses);
-		file << "	  (is-in s" << i << " b" << (base + problem_info.settlements) << ")" << endl;
+		file << "		(is-in s" << i << " b" << (base + problem_info.settlements) << ")" << endl;
 	}
 	file << endl;
 
@@ -191,7 +196,7 @@ void init(ofstream& file, Info problem_info, int ext) {
 	file << "		; Staff" << endl;
 	for (int i = 0; i < problem_info.people; i++) {
 		int base = random(0, problem_info.settlements);
-		file << "	  (is-in p" << i << " b" << base << ")" << endl;
+		file << "		(is-in p" << i << " b" << base << ")" << endl;
 	}
 	file << endl;
 
@@ -205,7 +210,13 @@ void init(ofstream& file, Info problem_info, int ext) {
 		vector< pair<string, string> > aux(combinations.begin(), combinations.end());
 		random_shuffle(aux.begin(), aux.end());
 		auto combination = *aux.begin();
-		file << "		(needs " << combination.first << " " << combination.second << ")" << endl;
+		if (ext <= 2) {
+			file << "		(needs " << combination.first << " " << combination.second << ")" << endl;
+		}
+		else {
+			int priority = random(1, 4);
+			file << "		(needs-p" << priority << " " << combination.first << " " << combination.second << ")" << endl;
+		}
 		combinations.erase(combination);
 	}
 	file << "	)" << endl;
@@ -220,6 +231,47 @@ void goal(ofstream& file) {
 	file << "		)" << endl;
 	file << "	)" << endl;
 	file << endl;
+}
+
+void metric(ofstream& file, Info problem_info, int ext) {
+	string s;
+	bool fuel = false;
+	bool priorities = false;
+	int weight_fuel = 0;
+	int weight_priority = 0;
+	
+	if (ext == 3) {
+		cout << "Do you want to optimize priorities? (yes / no)" << endl;
+		cin >> s;
+		cout << endl;
+		priorities = s.front() == 'y';
+	}
+	
+	cout << "Do you want to optimize fuel? (yes / no)" << endl;
+	cin >> s;
+	cout << endl;
+	fuel = s.front() == 'y';
+		
+	if (ext == 2 && fuel) {
+		file << "	; Metric" << endl;
+		file << "	(:metric minimize (fuel-used))" << endl;
+	}
+	else if (ext == 3 && priorities && fuel) {
+		cout << "Enter the weight of the priority criteria: " << endl;
+		cin >> weight_priority;
+		cout << endl;
+		
+		cout << "Enter the weight of the fuel criteria: " << endl;
+		cin >> weight_fuel;
+		cout << endl;
+		
+		file << "	; Metric" << endl;
+		file << "	(:metric minimize (+ (* (violations) " << weight_priority << ") (* (fuel-used) " << weight_fuel << ")))" << endl;
+	}
+	else if (ext == 3 && priorities) {
+		file << "	; Metric" << endl;
+		file << "	(:metric minimize (violations))" << endl;
+	}
 }
 
 void basic() {
@@ -248,12 +300,20 @@ void ext2() {
 	auto info = add_objects(file);
 	init(file, info, 2);
 	goal(file);
+	metric(file, info, 2);
 	end_problem(file);
 	file.close();
 }
 
 void ext3() {
-	cout << "Not implemented yet" << endl;
+	auto file = get_file();
+	begin_problem(file);
+	auto info = add_objects(file);
+	init(file, info, 3);
+	goal(file);
+	metric(file, info, 3);
+	end_problem(file);
+	file.close();
 }
 
 int main() {
