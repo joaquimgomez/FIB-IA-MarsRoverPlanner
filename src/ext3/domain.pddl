@@ -92,6 +92,7 @@
 	  :precondition (and
 			(parked ?r ?b1)
 			(> (fuel ?r) 0)
+			(not (= ?b1 ?b2))
 		)
 	  :effect (and
 			(not (parked ?r ?b1))
