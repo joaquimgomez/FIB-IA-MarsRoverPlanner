@@ -1,2 +1,4 @@
 .DS_Store
 src/gen/gen
+
+src/gen/*.pddl
