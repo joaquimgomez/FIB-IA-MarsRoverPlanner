@@ -6,3 +6,5 @@ To try our planners we use Fast-Forward and Metric Fast-Forward planning systems
 > http://fai.cs.uni-saarland.de/hoffmann/ff.html
 
 > http://fai.cs.uni-saarland.de/hoffmann/metric-ff.html
+
+We also developed a problem generator for the different domains. You can find it in the folder src/gen/.
